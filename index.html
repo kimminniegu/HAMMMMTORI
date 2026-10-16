@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>햄찌 베이커리</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="game">
+  <div class="awning"></div>
+  <div class="sign">🐹 햄찌 <span>베이커리</span></div>
+
+  <div class="hud" id="hud">
+    <div class="pill" id="scorePill">⭐ <b id="score">0</b></div>
+    <div class="pill" id="comboPill">✨ 콤보 <b id="combo">0</b></div>
+    <div class="pill">💗 <span id="lives"></span></div>
+    <div class="pill fever-pill">🌈 <div class="fbar"><i id="feverBar"></i></div></div>
+    <div class="pill">Lv <b id="level">1</b></div>
+    <div class="pill">🏆 <b id="best">0</b></div>
+    <button class="pill mute" id="muteBtn" aria-label="소리 켜기/끄기">🔊</button>
+  </div>
+
+  <div class="shop" id="shop">
+    <div class="shelf">🌷 🫖 🍯 🌷 🫖 🍯</div>
+    <div class="toast" id="toast"></div>
+    <div id="slots"></div>
+    <div class="counter"></div>
+  </div>
+
+  <div class="tray-label">원하는 디저트를 눌러 전달! (키보드 1~6)<br>햄찌를 쓰다듬으면 조금 더 기다려 줘요 🤲</div>
+  <div class="tray" id="tray"></div>
+</div>
+
+<div class="overlay" id="startOverlay">
+  <div class="panel">
+    <div class="big">🐹🧁</div>
+    <h2>햄찌 베이커리</h2>
+    <p>배고픈 햄찌 손님들이 몰려와요!</p>
+    <ul class="rules">
+      <li>🧁 말풍선 속 디저트를 트레이에서 골라 전달</li>
+      <li>✨ 연속으로 맞히면 콤보 점수 UP</li>
+      <li>🌈 무지개 게이지가 차면 <b>피버 타임</b> (점수 2배, 시간 정지)</li>
+      <li>👑 황금 VIP 햄찌는 점수 3배, 대신 성격이 급해요</li>
+      <li>💤 잠꾸러기 햄찌는 느긋하게 기다려 줘요</li>
+      <li>🌻 날아가는 해바라기씨를 잡으면 하트 회복</li>
+      <li>🤲 햄찌를 쓰다듬으면 조금 더 기다려 줘요</li>
+    </ul>
+    <button class="btn" id="startBtn">가게 열기</button>
+  </div>
+</div>
+
+<div class="overlay" id="overOverlay" hidden>
+  <div class="panel">
+    <div class="big">🌙🐹</div>
+    <h2>오늘 영업 끝!</h2>
+    <p id="overText"></p>
+    <button class="btn" id="againBtn">다시 하기</button>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

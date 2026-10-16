@@ -1,0 +1,467 @@
+:root {
+  --ink: #6b4f4f;
+  --pink: #ffb7c9;
+  --pink-deep: #f48aa6;
+  --mint: #c4ecd9;
+  --lav: #ddd1ff;
+  --butter: #fff1b8;
+  --peach: #ffd9c2;
+  --sky: #cfe8ff;
+  --cream: #fffaf3;
+  --gold: #ffd34d;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  min-height: 100vh;
+  font-family: 'Jua', 'Apple SD Gothic Neo', 'Malgun Gothic', system-ui, sans-serif;
+  color: var(--ink);
+  background: linear-gradient(180deg, #fff0f5 0%, #fdf3e7 100%);
+  display: flex;
+  justify-content: center;
+  overflow-x: hidden;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.game {
+  width: 100%;
+  max-width: 860px;
+  padding: 0 16px 24px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ---------- 가게 차양 & 간판 ---------- */
+.awning {
+  height: 52px;
+  margin: 0 -16px;
+  position: relative;
+  background: repeating-linear-gradient(90deg, #ffc2d4 0 40px, #ffffff 40px 80px);
+}
+.awning::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: -14px;
+  height: 14px;
+  background:
+    radial-gradient(circle at 20px 0, #ffc2d4 14px, transparent 15px) 0 0 / 80px 14px repeat-x,
+    radial-gradient(circle at 60px 0, #ffffff 14px, transparent 15px) 0 0 / 80px 14px repeat-x;
+}
+.sign {
+  align-self: center;
+  margin: 28px 0 12px;
+  background: #fff;
+  padding: 8px 26px;
+  border-radius: 999px;
+  font-size: clamp(24px, 5vw, 34px);
+  box-shadow: 0 6px 0 #ffd3df, 0 10px 24px #f4b6c633;
+  letter-spacing: 1px;
+}
+.sign span { color: var(--pink-deep); }
+
+/* ---------- HUD ---------- */
+.hud {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.pill {
+  background: #ffffffcc;
+  border: 0;
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-family: inherit;
+  font-size: 17px;
+  color: inherit;
+  box-shadow: 0 3px 0 #f3dcd2;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.pill b { font-weight: normal; color: var(--pink-deep); font-size: 20px; }
+.pill.bump { animation: bump .35s; }
+.mute { cursor: pointer; }
+.fbar {
+  width: 84px; height: 11px;
+  border-radius: 6px;
+  background: #f5e6ea;
+  overflow: hidden;
+}
+.fbar i {
+  display: block;
+  height: 100%; width: 0%;
+  background: linear-gradient(90deg, #ffb7c9, #ffd98a, #9fdcb8, #a8c8ff, #d3b8ff);
+  transition: width .2s;
+}
+.fever-on .fever-pill { animation: bump .5s infinite; box-shadow: 0 3px 0 #f3dcd2, 0 0 14px #ffd98a; }
+
+/* ---------- 가게 안 (손님 자리) ---------- */
+.shop {
+  position: relative;
+  flex: 1;
+  min-height: 340px;
+  border-radius: 30px;
+  padding: 16px 12px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background:
+    radial-gradient(circle, #ffe1ea 2.5px, transparent 3px) 0 0 / 34px 34px,
+    radial-gradient(circle, #e2f3ea 2.5px, transparent 3px) 17px 17px / 34px 34px,
+    var(--cream);
+  box-shadow: inset 0 0 0 4px #ffe6ee, 0 10px 30px #f2c6d233;
+  overflow: hidden;
+}
+.shop::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .4s;
+  background: linear-gradient(120deg, #ffd1e0, #fff3b0, #c9f2df, #d6e4ff, #ead6ff, #ffd1e0);
+  background-size: 300% 300%;
+  animation: rainbow 3s linear infinite;
+}
+.shop.fever::before { opacity: .8; }
+.shop.shake { animation: shake .3s; }
+.shelf {
+  position: absolute;
+  top: 18px; left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+  font-size: 22px;
+  opacity: .55;
+  white-space: nowrap;
+  letter-spacing: 8px;
+}
+#slots {
+  display: grid;
+  grid-template-columns: repeat(var(--n, 4), 1fr);
+  gap: 6px;
+  height: 260px;
+  position: relative;
+  z-index: 1;
+}
+.slot { position: relative; height: 100%; }
+.counter {
+  height: 38px;
+  margin: -8px -12px 0;
+  position: relative;
+  z-index: 2;
+  background: linear-gradient(#ffd3b5, #f6bf9b);
+  border-top: 6px solid #ffe6d4;
+}
+
+/* ---------- 햄스터 ---------- */
+.hamster {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  margin: 0 auto;
+  width: min(124px, 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: enter .5s cubic-bezier(.3, 1.6, .5, 1) both;
+}
+.hamster svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  cursor: pointer;
+  transform-origin: 50% 100%;
+  animation: bob 2.4s ease-in-out infinite;
+}
+.hamster .eye-happy, .hamster .eye-sleep, .hamster .tear, .hamster .crown { display: none; }
+.hamster.vip .crown { display: inline; }
+.hamster.vip svg { filter: drop-shadow(0 0 8px #ffe48a); }
+.hamster.sleepy .eye { display: none; }
+.hamster.sleepy .eye-sleep { display: inline; }
+.hamster.sleepy::after {
+  content: '💤';
+  position: absolute;
+  right: -4px; bottom: 60px;
+  font-size: 20px;
+  animation: zzz 2s ease-in-out infinite;
+}
+.hamster.happy .eye, .hamster.happy .eye-sleep { display: none; }
+.hamster.happy .eye-happy { display: inline; }
+.hamster.happy::after { content: none; }
+.hamster.happy svg { animation: hop .5s ease-out 2; }
+.hamster.pet svg { animation: squish .3s ease-out; }
+.hamster.sad svg { filter: saturate(.6) brightness(.97); animation: none; }
+.hamster.sad .tear { display: inline; animation: drip 1s ease-in infinite; }
+.hamster.leave { animation: leave .45s ease-in forwards; }
+
+.bubble {
+  position: relative;
+  background: #fff;
+  border-radius: 22px;
+  padding: 4px 10px 8px;
+  margin-bottom: 8px;
+  text-align: center;
+  box-shadow: 0 4px 0 #f4dfe4, 0 6px 16px #e9c3cf44;
+}
+.bubble::after {
+  content: '';
+  position: absolute;
+  left: 50%; bottom: -9px;
+  transform: translateX(-50%);
+  border: 10px solid transparent;
+  border-top-color: #fff;
+  border-bottom: 0;
+}
+.vip .bubble { background: #fffbe6; box-shadow: 0 4px 0 #f6dc8c, 0 0 16px #ffe48a88; }
+.vip .bubble::after { border-top-color: #fffbe6; }
+.bubble .who { font-size: 12px; opacity: .75; display: block; white-space: nowrap; }
+.wants { display: flex; justify-content: center; gap: 2px; }
+.w { font-size: 36px; line-height: 1.1; position: relative; transition: transform .2s; }
+.wants.n2 .w { font-size: 30px; }
+.wants.n3 .w { font-size: 25px; }
+.w.sent { transform: scale(.9); }
+.w.done { opacity: .35; transform: scale(.8); }
+.w.done::after {
+  content: '✔';
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+  color: #4fbf86;
+  opacity: 1;
+}
+.bar {
+  width: 64px; height: 7px;
+  margin: 2px auto 0;
+  border-radius: 4px;
+  background: #f3e8ea;
+  overflow: hidden;
+}
+.bar i { display: block; height: 100%; width: 100%; border-radius: 4px; background: #9fdcb8; }
+.hamster.hurry .bubble { animation: wiggle .35s ease-in-out infinite; }
+.hamster.happy .bubble, .hamster.sad .bubble { animation: none; }
+
+/* ---------- 해바라기씨 보너스 & 배너 ---------- */
+.seed {
+  position: absolute;
+  left: 0;
+  z-index: 4;
+  border: 0;
+  background: none;
+  padding: 4px;
+  font-size: 34px;
+  cursor: pointer;
+  filter: drop-shadow(0 0 8px #fff27a);
+}
+.banner {
+  position: absolute;
+  left: 50%; top: 42%;
+  z-index: 6;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  pointer-events: none;
+  white-space: nowrap;
+  animation: banner 1.8s ease-out forwards;
+}
+.banner strong {
+  display: block;
+  font-weight: normal;
+  font-size: clamp(30px, 7vw, 46px);
+  color: var(--pink-deep);
+  text-shadow: 0 3px 0 #fff, 0 0 18px #fff;
+}
+.banner span { font-size: 17px; background: #fff; padding: 3px 14px; border-radius: 999px; }
+
+/* ---------- 트레이 ---------- */
+.tray-label { text-align: center; margin: 18px 0 8px; font-size: 15px; opacity: .75; line-height: 1.5; }
+.tray {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+  padding: 14px;
+  border-radius: 28px;
+  background: linear-gradient(#ffe7cf, #f9d3ae);
+  box-shadow: inset 0 -6px 0 #efbd92, 0 10px 22px #e7b9a044;
+}
+.item {
+  position: relative;
+  border: 0;
+  border-radius: 20px;
+  padding: 10px 4px 8px;
+  font-family: inherit;
+  color: var(--ink);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  background: #fff;
+  box-shadow: 0 5px 0 #0000001a;
+  transition: transform .12s, box-shadow .12s;
+}
+.item:nth-child(1) { background: #ffe3ec; }
+.item:nth-child(2) { background: var(--lav); }
+.item:nth-child(3) { background: var(--butter); }
+.item:nth-child(4) { background: var(--mint); }
+.item:nth-child(5) { background: var(--peach); }
+.item:nth-child(6) { background: var(--sky); }
+.item:hover { transform: translateY(-4px); }
+.item:active { transform: translateY(3px); box-shadow: 0 2px 0 #0000001a; }
+.item:focus-visible { outline: 3px solid var(--pink-deep); outline-offset: 2px; }
+.item .emo { font-size: clamp(30px, 7vw, 40px); line-height: 1.15; }
+.item small { font-size: 13px; }
+.item kbd {
+  position: absolute;
+  top: 5px; left: 7px;
+  font-family: inherit;
+  font-size: 11px;
+  opacity: .45;
+}
+.item.shake { animation: shake .35s; }
+
+/* ---------- 이펙트 ---------- */
+.fly {
+  position: fixed;
+  left: 0; top: 0;
+  width: 52px; height: 52px;
+  display: grid;
+  place-items: center;
+  font-size: 40px;
+  z-index: 50;
+  pointer-events: none;
+}
+.heart {
+  position: fixed;
+  z-index: 60;
+  pointer-events: none;
+  animation: pop var(--dur, .9s) cubic-bezier(.2, .8, .3, 1) forwards;
+}
+.ring {
+  position: fixed;
+  z-index: 59;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  border: 4px solid #ff9fb8;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  animation: ring .6s ease-out forwards;
+}
+.float-text {
+  position: fixed;
+  z-index: 61;
+  pointer-events: none;
+  font-size: 24px;
+  color: var(--pink-deep);
+  text-shadow: 0 2px 0 #fff, 0 0 6px #fff;
+  transform: translate(-50%, -50%);
+  animation: rise 1s ease-out forwards;
+  white-space: nowrap;
+}
+.float-text.small { font-size: 16px; color: #c98aa0; }
+.float-text.gold { color: #e5a400; font-size: 28px; }
+.toast {
+  position: absolute;
+  top: 50px; left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  padding: 8px 18px;
+  border-radius: 999px;
+  box-shadow: 0 4px 0 #f4dfe4;
+  font-size: 16px;
+  z-index: 5;
+  opacity: 0;
+  transition: opacity .2s;
+  white-space: nowrap;
+}
+.toast.show { opacity: 1; }
+
+/* ---------- 오버레이 ---------- */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: #fff3f7cc;
+  backdrop-filter: blur(5px);
+}
+.overlay[hidden] { display: none; }
+.panel {
+  background: #fff;
+  border-radius: 30px;
+  padding: 26px 24px;
+  max-width: 380px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 8px 0 #ffd3df, 0 20px 40px #f0a9bd44;
+}
+.panel .big { font-size: 60px; line-height: 1; }
+.panel h2 { margin: 10px 0 6px; font-weight: normal; font-size: 28px; }
+.panel p { margin: 6px 0 14px; line-height: 1.6; font-size: 16px; opacity: .85; }
+.rules {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 18px;
+  text-align: left;
+  font-size: 15px;
+  line-height: 1.5;
+}
+.rules li { padding: 5px 10px; border-radius: 12px; }
+.rules li:nth-child(odd) { background: #fff4f7; }
+.btn {
+  border: 0;
+  border-radius: 999px;
+  padding: 12px 34px;
+  font-family: inherit;
+  font-size: 21px;
+  color: #fff;
+  background: #ff9fb8;
+  box-shadow: 0 5px 0 #ef7f9d;
+  cursor: pointer;
+  transition: transform .1s;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn:active { transform: translateY(3px); box-shadow: 0 2px 0 #ef7f9d; }
+
+/* ---------- 키프레임 ---------- */
+@keyframes enter { from { transform: translateY(70px); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes leave { to { transform: translateY(40px) scale(.85); opacity: 0; } }
+@keyframes bob { 0%, 100% { transform: scale(1, 1); } 50% { transform: scale(1.03, .97); } }
+@keyframes hop { 0%, 100% { transform: translateY(0); } 40% { transform: translateY(-18px) scale(1.04, .96); } }
+@keyframes squish { 40% { transform: scale(1.12, .86); } 70% { transform: scale(.95, 1.06); } }
+@keyframes wiggle { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(-5deg); } 75% { transform: rotate(5deg); } }
+@keyframes drip { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(12px); opacity: 0; } }
+@keyframes zzz { 0%, 100% { transform: translate(0, 0); opacity: .6; } 50% { transform: translate(4px, -8px); opacity: 1; } }
+@keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-7px); } 75% { transform: translateX(7px); } }
+@keyframes bump { 50% { transform: scale(1.12); } }
+@keyframes rainbow { 0% { background-position: 0% 50%; } 100% { background-position: 300% 50%; } }
+@keyframes pop {
+  0%   { transform: translate(-50%, -50%) scale(.2); opacity: 1; }
+  70%  { opacity: 1; }
+  100% { transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1) rotate(var(--r)); opacity: 0; }
+}
+@keyframes ring { to { width: 150px; height: 150px; opacity: 0; border-width: 1px; } }
+@keyframes rise { 0% { opacity: 0; margin-top: 0; } 15% { opacity: 1; } 100% { opacity: 0; margin-top: -60px; } }
+@keyframes banner {
+  0%   { transform: translate(-50%, -50%) scale(.3); opacity: 0; }
+  15%  { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
+  25%  { transform: translate(-50%, -50%) scale(1); }
+  80%  { opacity: 1; }
+  100% { transform: translate(-50%, -70%) scale(1); opacity: 0; }
+}
+
+@media (max-width: 560px) {
+  .tray { grid-template-columns: repeat(3, 1fr); }
+  #slots { height: 240px; }
+  .w { font-size: 30px; }
+  .wants.n2 .w { font-size: 25px; }
+  .wants.n3 .w { font-size: 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hamster svg, .shop::before { animation: none; }
+}
